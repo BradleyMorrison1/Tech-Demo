@@ -4,15 +4,22 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public GameObject spawnLocationObj;
+    public CharacterController characterController;
+    private void OnTriggerEnter(Collider other)
     {
-        
-    }
+        if (other.CompareTag("KillBox"))
+        {
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+            Vector3 spawnDistance = spawnLocationObj.transform.position - gameObject.transform.position;
+            characterController.Move(spawnDistance);
+            Debug.Log("Triggered KillBox");
+        }
+
+        if (other.CompareTag("Checkpoint"))
+        {
+            spawnLocationObj.transform.position = other.transform.position;
+            Debug.Log("Triggered Checkpoint");
+        }
     }
 }
