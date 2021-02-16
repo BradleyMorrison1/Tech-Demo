@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class Player : MonoBehaviour
 {
@@ -8,6 +9,7 @@ public class Player : MonoBehaviour
     public CharacterController characterController;
 
     private float ammo;
+    public TMP_Text ammoText;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -36,5 +38,10 @@ public class Player : MonoBehaviour
     private void Start()
     {
         ammo = 60;
+    }
+
+    private void Update()
+    {
+        ammoText.text = ammo.ToString();
     }
 }
