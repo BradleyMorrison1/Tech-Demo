@@ -42,6 +42,6 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
-        ammoText.text = ammo.ToString();
+        ammoText.text = ("Ammo: " + ammo.ToString());
     }
 }
