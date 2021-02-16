@@ -8,6 +8,7 @@ TagManager:
   - KillBox
   - Checkpoint
   - AmmoBox
+  - Door
   layers:
   - Default
   - TransparentFX

@@ -21,13 +21,13 @@ public class Player : MonoBehaviour
             Debug.Log("Triggered KillBox");
         }
 
-        if (other.CompareTag("Checkpoint"))
+        else if (other.CompareTag("Checkpoint"))
         {
             spawnLocationObj.transform.position = other.transform.position;
             Debug.Log("Triggered Checkpoint");
         }
 
-        if (other.CompareTag("AmmoBox"))
+        else if (other.CompareTag("AmmoBox"))
         {
             ammo += 30;
             Debug.Log("Collected Ammo");
