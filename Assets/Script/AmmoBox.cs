@@ -4,14 +4,18 @@ using UnityEngine;
 
 public class AmmoBox : MonoBehaviour
 {
+    // Variables
+
+    // used in the movement scripts
     private float rotationSpeed = 100f;
     private float moveSpeed = 0.5f;
-    // used in the movement scripts
     private bool startedMoveLoop;
     private bool moveDown;
     private bool moveUp;
-
     private Vector3 startPos;
+
+    // used in respawning
+    public float timeUntilRespawn = 1f;
 
     private void Start()
     {
@@ -38,6 +42,18 @@ public class AmmoBox : MonoBehaviour
         if (moveDown) gameObject.transform.Translate(Vector3.down * Time.deltaTime * moveSpeed) ;
         if (moveUp) gameObject.transform.Translate(Vector3.up * Time.deltaTime * moveSpeed);
     }
-    
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            gameObject.SetActive(false);
+            Invoke("enableCollectible", timeUntilRespawn);
+        }
+    }
+
+    private void enableCollectible()
+    {
+        gameObject.SetActive(true);
+    }
 }
