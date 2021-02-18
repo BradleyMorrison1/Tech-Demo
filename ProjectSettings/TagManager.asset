@@ -9,6 +9,7 @@ TagManager:
   - Checkpoint
   - AmmoBox
   - Door
+  - PowerUp
   layers:
   - Default
   - TransparentFX

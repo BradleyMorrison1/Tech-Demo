@@ -9,7 +9,14 @@ public class Player : MonoBehaviour
     public CharacterController characterController;
 
     private float ammo;
+    public float health;
+    public float maxHealth;
+    private float powerUpTimer = 30;
+
+    private bool startTimer = false;
+
     public TMP_Text ammoText;
+    public TMP_Text healthText;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -32,16 +39,31 @@ public class Player : MonoBehaviour
             ammo += 30;
             Debug.Log("Collected Ammo");
         }
+
+        else if (other.CompareTag("PowerUp"))
+        {
+            startTimer = true;
+        }
     }
 
 
     private void Start()
     {
+        maxHealth = 100;
+        health = maxHealth;
         ammo = 60;
     }
 
     private void Update()
     {
         ammoText.text = ("Ammo: " + ammo.ToString());
+        healthText.text = ("Health: " + health.ToString());
+
+        if (startTimer) powerUpTimer -= Time.deltaTime;
+        if (powerUpTimer <= 0)
+        {
+            powerUpTimer = 0;
+            startTimer = false;
+        }
     }
 }
