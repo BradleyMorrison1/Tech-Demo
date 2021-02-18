@@ -59,7 +59,12 @@ public class Player : MonoBehaviour
         ammoText.text = ("Ammo: " + ammo.ToString());
         healthText.text = ("Health: " + health.ToString());
 
-        if (startTimer) powerUpTimer -= Time.deltaTime;
+        if (startTimer)
+        {
+            powerUpTimer -= Time.deltaTime;
+
+
+        }
         if (powerUpTimer <= 0)
         {
             powerUpTimer = 0;
