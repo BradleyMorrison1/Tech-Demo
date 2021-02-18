@@ -59,7 +59,6 @@ public class Player : MonoBehaviour
     {
         ammoText.text = ("Ammo: " + ammo.ToString());
         healthText.text = ("Health: " + health.ToString());
-        health--;
         if (health <= 0) health = 0;
 
         // Power Up
