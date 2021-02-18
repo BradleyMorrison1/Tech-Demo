@@ -11,7 +11,8 @@ public class Player : MonoBehaviour
     private float ammo;
     public float health;
     public float maxHealth;
-    private float powerUpTimer = 30;
+    private float powerUpTimer = 10;
+    private float colorTimer = 0; // timer used for color of health UI
 
     private bool startTimer = false;
 
@@ -58,15 +59,22 @@ public class Player : MonoBehaviour
     {
         ammoText.text = ("Ammo: " + ammo.ToString());
         healthText.text = ("Health: " + health.ToString());
+        health--;
+        if (health <= 0) health = 0;
 
-        if (startTimer)
+        // Power Up
+        if (startTimer) // while power up is active
         {
             powerUpTimer -= Time.deltaTime;
-
-
+            health = maxHealth;
+            var tmpGUI = healthText.GetComponent<TextMeshProUGUI>();
+            tmpGUI.color = Color.Lerp(Color.yellow, Color.white, colorTimer);
+            if (colorTimer < 1) colorTimer += Time.deltaTime / powerUpTimer;
+            Debug.Log(Time.deltaTime);
         }
         if (powerUpTimer <= 0)
         {
+            colorTimer = 0;
             powerUpTimer = 0;
             startTimer = false;
         }
