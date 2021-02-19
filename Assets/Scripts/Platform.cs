@@ -13,6 +13,7 @@ public class Platform : MonoBehaviour
 
     public GameObject platformDestination; // empty game object used to determine where the platform will stop
 
+
     public float moveSpeed = 3f;
     //public float distance;
 
@@ -28,14 +29,14 @@ public class Platform : MonoBehaviour
 
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         currentPos = gameObject.transform.position;
 
         distance = Vector3.Distance(currentPos, endPos);
 
         if (platformMoving) MovePlatform();
-        
+
         if (distance <= 0.05f) // platform reached its destination (can't use zero because of floating point inaccuracy)
         {
             platformMoving = false;
@@ -62,5 +63,9 @@ public class Platform : MonoBehaviour
     private void MovePlatform()
     {
         gameObject.transform.Translate(calcPos * moveSpeed * Time.deltaTime);
+
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        player.GetComponent<Rigidbody>().MovePosition(calcPos * moveSpeed * Time.deltaTime);
+        //player.transform.parent = gameObject.transform;
     }
 }
