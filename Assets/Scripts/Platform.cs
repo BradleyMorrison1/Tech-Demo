@@ -65,7 +65,7 @@ public class Platform : MonoBehaviour
         gameObject.transform.Translate(calcPos * moveSpeed * Time.deltaTime);
 
         GameObject player = GameObject.FindGameObjectWithTag("Player");
-        player.GetComponent<Rigidbody>().MovePosition(calcPos * moveSpeed * Time.deltaTime);
+        player.GetComponent<Rigidbody>().MovePosition(player.transform.position += calcPos * moveSpeed * Time.deltaTime);
         //player.transform.parent = gameObject.transform;
     }
 }
