@@ -6,6 +6,7 @@ using TMPro;
 public class Player : MonoBehaviour
 {
     public GameObject spawnLocationObj;
+    public GameObject respawnMenu;
     public CharacterController characterController;
 
     private float ammo;
@@ -23,9 +24,9 @@ public class Player : MonoBehaviour
     {
         if (other.CompareTag("KillBox"))
         {
-
             Vector3 spawnDistance = spawnLocationObj.transform.position - gameObject.transform.position;
             characterController.Move(spawnDistance);
+            respawnMenu.GetComponent<RespawnMenu>().StopGame();
             Debug.Log("Triggered KillBox");
         }
 
@@ -59,7 +60,11 @@ public class Player : MonoBehaviour
     {
         ammoText.text = ("Ammo: " + ammo.ToString());
         healthText.text = ("Health: " + health.ToString());
-        if (health <= 0) health = 0;
+        if (health <= 0)
+        {
+            health = 0;
+            respawnMenu.GetComponent<RespawnMenu>().StopGame();
+        }
 
         // Power Up
         if (startTimer) // while power up is active
