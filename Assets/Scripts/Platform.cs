@@ -29,7 +29,7 @@ public class Platform : MonoBehaviour
 
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
         currentPos = gameObject.transform.position;
 

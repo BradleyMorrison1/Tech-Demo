@@ -69,7 +69,6 @@ public class Player : MonoBehaviour
             var tmpGUI = healthText.GetComponent<TextMeshProUGUI>();
             tmpGUI.color = Color.Lerp(Color.yellow, Color.white, colorTimer);
             if (colorTimer < 1) colorTimer += Time.deltaTime / powerUpTimer;
-            Debug.Log(Time.deltaTime);
         }
         if (powerUpTimer <= 0)
         {
