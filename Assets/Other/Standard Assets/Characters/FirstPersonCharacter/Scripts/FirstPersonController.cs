@@ -63,6 +63,18 @@ namespace UnityStandardAssets.Characters.FirstPerson
         private void Update()
         {
             RotateView();
+            if(Input.GetButtonDown("Fire1"))
+            {
+                Vector3 ray = m_Camera.ViewportToWorldPoint(new Vector3(0f, 0f, 0f));
+
+                RaycastHit hit;
+
+                if(Physics.Raycast(ray, m_Camera.transform.forward, out hit))
+                {
+                    Debug.Log(hit.collider.gameObject.name);
+                }
+            }
+
             // the jump state needs to read here to make sure it is not missed
             if (!m_Jump)
             {

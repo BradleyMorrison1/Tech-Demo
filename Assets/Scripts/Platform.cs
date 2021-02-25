@@ -21,6 +21,8 @@ public class Platform : MonoBehaviour
     public bool destinationReached = false;
     public bool switchDirections = false;
 
+    public AudioSource platformSound;
+
     private void Start()
     {
         startPos = gameObject.transform.position;
@@ -35,7 +37,13 @@ public class Platform : MonoBehaviour
 
         distance = Vector3.Distance(currentPos, endPos);
 
-        if (platformMoving) MovePlatform();
+        if (platformMoving)
+        {
+            MovePlatform();
+            if (!platformSound.isPlaying) platformSound.Play();
+        }
+
+        else if (!platformMoving) platformSound.Stop();
 
         if (distance <= 0.05f) // platform reached its destination (can't use zero because of floating point inaccuracy)
         {

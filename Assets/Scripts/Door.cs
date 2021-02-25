@@ -13,6 +13,8 @@ public class Door : MonoBehaviour
     public bool openingDoor;
     public bool closingDoor;
 
+    public AudioSource doorOpenSound;
+
     private void Start()
     {
         startPos = movingDoor.transform.position;
@@ -28,9 +30,12 @@ public class Door : MonoBehaviour
 
     private void OpenDoor()
     {
+             
          if (movingDoor.transform.position.y < (startPos.y + 2f))
          {
-             movingDoor.transform.Translate(Vector3.up * Time.deltaTime * moveSpeed);
+            if(!doorOpenSound.isPlaying) doorOpenSound.Play();
+            
+            movingDoor.transform.Translate(Vector3.up * Time.deltaTime * moveSpeed);
          }
          else
          {

@@ -14,6 +14,8 @@ public class AmmoBox : MonoBehaviour
     private bool moveUp;
     private Vector3 startPos;
 
+    public AudioSource pickupSound;
+
     // used in respawning
     public float timeUntilRespawn = 1f;
 
@@ -47,9 +49,25 @@ public class AmmoBox : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            gameObject.SetActive(false);
-            Invoke("enableCollectible", timeUntilRespawn);
+            StartCoroutine(PlaySound());
         }
+    }
+
+    private IEnumerator PlaySound()
+    {
+        if (!pickupSound.isPlaying)
+        {
+            pickupSound.Play();
+            Debug.Log("SOUND");
+        }
+
+        while(pickupSound.isPlaying)
+        {
+            yield return null;
+        }
+
+        gameObject.SetActive(false);
+        Invoke("enableCollectible", timeUntilRespawn);
     }
 
     private void enableCollectible()
