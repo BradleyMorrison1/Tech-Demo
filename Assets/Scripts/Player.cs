@@ -17,6 +17,18 @@ public class Player : MonoBehaviour
 
     private bool startTimer = false;
 
+    [SerializeField] private AudioClip gunShotSound;
+    [SerializeField] private AudioClip reloadSound;
+
+    public AudioSource audioSource;
+    private Camera camera;
+
+    public ParticleSystem muzzleFlash;
+    public ParticleSystem bulletHit;
+    public TrailRenderer bulletTracer;
+    public Transform gunBarrel;
+
+
     public TMP_Text ammoText;
     public TMP_Text healthText;
 
@@ -51,6 +63,8 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
+        camera = Camera.main;
+
         maxHealth = 100;
         health = maxHealth;
         ammo = 60;
@@ -65,6 +79,35 @@ public class Player : MonoBehaviour
             health = 0;
             respawnMenu.GetComponent<RespawnMenu>().StopGame();
         }
+
+        // shoot gun
+        if (Input.GetButtonDown("Fire1") && ammo > 0)
+        {
+            Vector3 ray = camera.ViewportToWorldPoint(new Vector3(0f, 0f, 0f));
+
+            RaycastHit hit;
+
+            muzzleFlash.Play();
+            var tracer = Instantiate(bulletTracer, gunBarrel.position, Quaternion.identity);
+            tracer.AddPosition(ray);
+
+            PlayGunshotAudio();
+
+            ammo--;
+            if (Physics.Raycast(ray, camera.transform.forward, out hit))
+            {
+                Debug.Log(hit.collider.gameObject.name);
+                Debug.DrawLine(gunBarrel.position, hit.point, Color.red, 1.0f);
+            }
+            tracer.transform.position = hit.point;
+            var hitEffect = Instantiate(bulletHit, hit.point, tracer.transform.rotation);
+            bulletHit.Play();
+        }
+
+
+
+
+
 
         // Power Up
         if (startTimer) // while power up is active
@@ -81,5 +124,17 @@ public class Player : MonoBehaviour
             powerUpTimer = 0;
             startTimer = false;
         }
+    }
+
+    private void PlayGunshotAudio()
+    {
+        audioSource.clip = gunShotSound;
+        audioSource.Play();
+    }
+
+    private void PlayReloadAudio()
+    {
+        audioSource.clip = reloadSound;
+        audioSource.Play();
     }
 }

@@ -9,6 +9,8 @@ public class RespawnMenu : MonoBehaviour
 
     private bool showCursor = false;
 
+    public AudioSource deathSound;
+
     public void Respawn()
     {
         Time.timeScale = 1f;
@@ -20,6 +22,7 @@ public class RespawnMenu : MonoBehaviour
     public void StopGame()
     {
         Debug.Log("Stopping Game");
+        if (!deathSound.isPlaying) deathSound.Play();
         Time.timeScale = 0f;
         respawnMenuUI.SetActive(true);
         HUD.SetActive(false);

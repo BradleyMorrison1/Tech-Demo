@@ -28,6 +28,8 @@ namespace UnityStandardAssets.Characters.FirstPerson
         [SerializeField] private AudioClip[] m_FootstepSounds;    // an array of footstep sounds that will be randomly selected from.
         [SerializeField] private AudioClip m_JumpSound;           // the sound played when character leaves the ground.
         [SerializeField] private AudioClip m_LandSound;           // the sound played when character touches back on ground.
+           
+        
 
         private Camera m_Camera;
         private bool m_Jump;
@@ -63,17 +65,6 @@ namespace UnityStandardAssets.Characters.FirstPerson
         private void Update()
         {
             RotateView();
-            if(Input.GetButtonDown("Fire1"))
-            {
-                Vector3 ray = m_Camera.ViewportToWorldPoint(new Vector3(0f, 0f, 0f));
-
-                RaycastHit hit;
-
-                if(Physics.Raycast(ray, m_Camera.transform.forward, out hit))
-                {
-                    Debug.Log(hit.collider.gameObject.name);
-                }
-            }
 
             // the jump state needs to read here to make sure it is not missed
             if (!m_Jump)
@@ -190,7 +181,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
             m_FootstepSounds[n] = m_FootstepSounds[0];
             m_FootstepSounds[0] = m_AudioSource.clip;
         }
-
+        
 
         private void UpdateCameraPosition(float speed)
         {
