@@ -1,0 +1,5 @@
+WASD - Move
+Space - Jump
+Shift - Sprint
+Left Click - Shoot
+R - reload
