@@ -43,6 +43,7 @@ public class Player : MonoBehaviour
 
     public TMP_Text ammoText;
     public TMP_Text healthText;
+    public TMP_Text scoreText;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -75,11 +76,12 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
+        spawnLocationObj.transform.position = gameObject.transform.position;
         camera = Camera.main;
 
         maxHealth = 100;
-        health = maxHealth;
-        ammo = 6;
+        health = 50;
+        ammo = 30;
         gunAmmo = maxGunAmmo;
     }
 
@@ -87,6 +89,8 @@ public class Player : MonoBehaviour
     {
         ammoText.text = ("Ammo: " + gunAmmo.ToString() + " | " + ammo.ToString());
         healthText.text = ("Health: " + health.ToString());
+        scoreText.text = ("Score: " + score.ToString());
+
         if (health <= 0)
         {
             health = 0;

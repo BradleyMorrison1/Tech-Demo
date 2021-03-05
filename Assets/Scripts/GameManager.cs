@@ -9,7 +9,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        Instantiate(AmmoBox, new Vector3(-5f, 1f, 3f), Quaternion.identity);
+        //Instantiate(AmmoBox, new Vector3(-5f, 1f, 3f), Quaternion.identity);
 
         Instantiate(PowerUp, new Vector3(0f, 1f, 5f), Quaternion.identity);
     }
