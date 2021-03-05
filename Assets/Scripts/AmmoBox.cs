@@ -58,7 +58,6 @@ public class AmmoBox : MonoBehaviour
         if (!pickupSound.isPlaying)
         {
             pickupSound.Play();
-            Debug.Log("SOUND");
         }
 
         while(pickupSound.isPlaying)

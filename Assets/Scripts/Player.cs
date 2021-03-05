@@ -21,6 +21,8 @@ public class Player : MonoBehaviour
     private float colorTimer = 0; // timer used for color of health UI
     [SerializeField]private float fireRate = 30f;
     private float nextTimeToFire = 0f;
+    private float score = 0f; // increases when a target is hit
+
 
 
     private bool startTimer = false;
@@ -151,6 +153,17 @@ public class Player : MonoBehaviour
         if (Physics.Raycast(ray, camera.transform.forward, out hit))
         {
             Debug.Log(hit.collider.gameObject.name);
+
+            Target target = hit.transform.GetComponent<Target>();
+            if(target !=null)
+            {
+                target.Hit();
+                score++;
+                Debug.Log(score);
+            }
+
+
+
             Debug.DrawLine(gunBarrel.position, hit.point, Color.red, 1.0f);
         }
         tracer.transform.position = hit.point;
