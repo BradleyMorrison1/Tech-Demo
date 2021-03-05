@@ -30,7 +30,7 @@ public class Door : MonoBehaviour
 
     private void OpenDoor()
     {
-             
+         if (closingDoor) openingDoor = false;    
          if (movingDoor.transform.position.y < (startPos.y + 2f))
          {
             if(!doorOpenSound.isPlaying) doorOpenSound.Play();

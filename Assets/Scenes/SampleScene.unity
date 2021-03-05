@@ -1405,7 +1405,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-1306
+  m_Name: pb_Mesh-1326
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -6682,7 +6682,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-1316
+  m_Name: pb_Mesh-1336
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -6845,7 +6845,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-1312
+  m_Name: pb_Mesh-1332
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -8277,10 +8277,14 @@ MonoBehaviour:
   spawnLocationObj: {fileID: 656275413}
   respawnMenu: {fileID: 1934604364}
   characterController: {fileID: 1203996782}
+  maxGunAmmo: 15
+  maxAmmo: 330
   health: 0
   maxHealth: 0
+  fireRate: 8
   gunShotSound: {fileID: 8300000, guid: 4cf9cf42b108e234e88a88a54dd8d15a, type: 3}
   reloadSound: {fileID: 8300000, guid: 8ed3e673db9720f4ebcd88f19067af8c, type: 3}
+  emptySound: {fileID: 8300000, guid: 97fa44b2493a2ef43961b7ea08409e12, type: 3}
   audioSource: {fileID: 1203996780}
   muzzleFlash: {fileID: 1064247404}
   bulletHit: {fileID: 6904192034242650248, guid: 1ef66cc7a491e4241af6a13c20274367,
@@ -10962,7 +10966,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -150, y: 50}
+  m_AnchoredPosition: {x: -200, y: 50}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2024347836

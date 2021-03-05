@@ -10,15 +10,25 @@ public class Player : MonoBehaviour
     public CharacterController characterController;
 
     private float ammo;
+    private float gunAmmo; // ammo in magazine of gun
+    [SerializeField] private float maxGunAmmo = 15; // maximum amount of ammo in the magazine
+    [SerializeField] private float maxAmmo = 330; // maximum amount of ammo in the possible
+    private float gunAmmoDifference; // used when you reload while not having an empty mag
+    private float ammoDifference; // used to calculate how ammo when reserve is less than 15
     public float health;
     public float maxHealth;
-    private float powerUpTimer = 10;
+    private float powerUpTimer = 10; // time that the powerup stays active
     private float colorTimer = 0; // timer used for color of health UI
+    [SerializeField]private float fireRate = 30f;
+    private float nextTimeToFire = 0f;
+
 
     private bool startTimer = false;
+    private bool isReloading = false;
 
     [SerializeField] private AudioClip gunShotSound;
     [SerializeField] private AudioClip reloadSound;
+    [SerializeField] private AudioClip emptySound;
 
     public AudioSource audioSource;
     private Camera camera;
@@ -67,12 +77,13 @@ public class Player : MonoBehaviour
 
         maxHealth = 100;
         health = maxHealth;
-        ammo = 60;
+        ammo = 6;
+        gunAmmo = maxGunAmmo;
     }
 
     private void Update()
     {
-        ammoText.text = ("Ammo: " + ammo.ToString());
+        ammoText.text = ("Ammo: " + gunAmmo.ToString() + " | " + ammo.ToString());
         healthText.text = ("Health: " + health.ToString());
         if (health <= 0)
         {
@@ -81,33 +92,31 @@ public class Player : MonoBehaviour
         }
 
         // shoot gun
-        if (Input.GetButtonDown("Fire1") && ammo > 0)
+        if (Input.GetButtonDown("Fire1") && gunAmmo > 0 && !isReloading && Time.time >= nextTimeToFire)
         {
-            Vector3 ray = camera.ViewportToWorldPoint(new Vector3(0f, 0f, 0f));
+            nextTimeToFire = Time.time + 1f / fireRate;
+            Shoot();
+        }
+        
+        else if (Input.GetButtonDown("Fire1") && gunAmmo == 0 && !isReloading && Time.time >= nextTimeToFire)
+        {
+            nextTimeToFire = Time.time + 1f / fireRate;
+            PlayGunEmptyAudio();
+        }
 
-            RaycastHit hit;
-
-            muzzleFlash.Play();
-            var tracer = Instantiate(bulletTracer, gunBarrel.position, Quaternion.identity);
-            tracer.AddPosition(ray);
-
-            PlayGunshotAudio();
-
-            ammo--;
-            if (Physics.Raycast(ray, camera.transform.forward, out hit))
+        if(Input.GetKeyDown(KeyCode.R))
+        {
+            if (gunAmmo < maxGunAmmo && !isReloading && ammo > 0)
             {
-                Debug.Log(hit.collider.gameObject.name);
-                Debug.DrawLine(gunBarrel.position, hit.point, Color.red, 1.0f);
+                Reload();
             }
-            tracer.transform.position = hit.point;
-            var hitEffect = Instantiate(bulletHit, hit.point, tracer.transform.rotation);
-            bulletHit.Play();
         }
 
 
-
-
-
+        // range checking for ammo values
+        if (ammo <= 0) ammo = 0;
+        if (ammo >= maxAmmo) ammo = maxAmmo;
+        if (gunAmmo <= 0) gunAmmo = 0;
 
         // Power Up
         if (startTimer) // while power up is active
@@ -126,6 +135,66 @@ public class Player : MonoBehaviour
         }
     }
 
+    private void Shoot()
+    {
+        Vector3 ray = camera.ViewportToWorldPoint(new Vector3(0f, 0f, 0f));
+
+        RaycastHit hit;
+
+        muzzleFlash.Play();
+        var tracer = Instantiate(bulletTracer, gunBarrel.position, Quaternion.identity);
+        tracer.AddPosition(ray);
+
+        PlayGunshotAudio();
+
+        gunAmmo--;
+        if (Physics.Raycast(ray, camera.transform.forward, out hit))
+        {
+            Debug.Log(hit.collider.gameObject.name);
+            Debug.DrawLine(gunBarrel.position, hit.point, Color.red, 1.0f);
+        }
+        tracer.transform.position = hit.point;
+        var hitEffect = Instantiate(bulletHit, hit.point, tracer.transform.rotation);
+        bulletHit.Play();
+    }
+
+
+    private void Reload()
+    {
+        isReloading = true;
+        PlayReloadAudio();
+        if(audioSource.clip == reloadSound && audioSource.isPlaying)
+        {
+            isReloading = true;
+            Debug.Log("Reloading");
+        }
+        Invoke("DoneReload", 0.7f);
+
+    }
+
+    private void DoneReload()
+    {
+        Debug.Log("Done Reloading");
+        isReloading = false;
+        gunAmmoDifference = maxGunAmmo - gunAmmo;
+        if (ammo < 15f && ammo > gunAmmo)
+        {
+            gunAmmo += ammo;
+            ammo -= ammo;
+        }
+        else if (ammo < 15f && gunAmmoDifference > ammo)
+        {
+            gunAmmo += ammo;
+            ammo -= ammo;
+        }
+        else
+        {
+            gunAmmo += gunAmmoDifference;
+            ammo -= gunAmmoDifference;
+        }
+        
+    }
+
     private void PlayGunshotAudio()
     {
         audioSource.clip = gunShotSound;
@@ -135,6 +204,13 @@ public class Player : MonoBehaviour
     private void PlayReloadAudio()
     {
         audioSource.clip = reloadSound;
+        audioSource.Play();
+    }
+
+    private void PlayGunEmptyAudio()
+    {
+        if (audioSource.isPlaying && audioSource.clip == emptySound) return;
+        audioSource.clip = emptySound;
         audioSource.Play();
     }
 }
